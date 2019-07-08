@@ -22,9 +22,9 @@ public class DLinkedList<E> extends java.util.AbstractList<E> {
     
     /** Constructor: an empty linked list. */
     public DLinkedList() {
-    	this.size=0;
-    	this.head=null;
-    	this.tail=null;
+    	size=0;
+    	head=null;
+    	tail=null;
     }
 
     /**
@@ -32,7 +32,7 @@ public class DLinkedList<E> extends java.util.AbstractList<E> {
      * This operation must take constant time.
      */
     public @Override int size() {
-    	return this.size;
+    	return size;
     }
 
     /**
@@ -76,18 +76,20 @@ public class DLinkedList<E> extends java.util.AbstractList<E> {
      * This operation must take constant time.
      */
     private Node append(E element) {
-        // TODO item #4
-        // This mid-size helper function will be used by other methods
-        throw new NotImplementedError();
+    	Node newnode= new Node(this.tail, element, null);
+    	if(this.size==0)
+    		this.head=newnode;
+    	else 
+    		newnode.pred.succ=newnode;
+    	this.size++;
+    	this.tail=newnode;
+    	return newnode;
     }
     
     /** Append element to the end of this list and return true. */
     public @Override boolean add(E element) {
-        // TODO item #5
-        // Rely on helper methods to keep this method small
-        // This is THE MOST IMPORTANT method to get right because it will be used
-        // in nearly every test
-        throw new NotImplementedError();
+    	append(element);
+    	return true;
     }
     
     /**
@@ -253,6 +255,7 @@ public class DLinkedList<E> extends java.util.AbstractList<E> {
          * @throws AssertionFailedError if the list is not well-formed
          */
         private static void assertInvariants(DLinkedList<?> list) {
+        	assertEquals(list.size(), list.size);
             throw new NotImplementedError();
         }
 
@@ -279,6 +282,21 @@ public class DLinkedList<E> extends java.util.AbstractList<E> {
             
             dll.add(4); ll.add(4);
             assertEquals(dll.toString(), ll.toString());
+            System.out.println("testToString OK!");
+        }
+        /** Compare DLinkedList to standard library list */
+        @Test
+        public void testToStringRev() {
+        	DLinkedList<Integer> dll = new DLinkedList<Integer>();
+            
+            assertEquals(dll.toStringRev(), "[]");
+
+            dll.add(5); 
+            assertEquals(dll.toStringRev(), "[5]");
+            
+            dll.add(4); 
+            assertEquals(dll.toStringRev(), "[4, 5]");
+            System.out.println("testToStringRev OK!");
         }
     }
 }
